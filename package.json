@@ -2,9 +2,9 @@
   "name": "clone-app",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/Express.js",
+  "main": "dist/App.js",
   "scripts": {
-    "start": "tsc && nodemon dist/Express.js",
+    "start": "tsc && nodemon dist/App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
