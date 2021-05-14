@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import {todoRouter} from '../routes/Ruta'
 
 class Server {
     private app: Application;
@@ -7,6 +8,7 @@ class Server {
     constructor() {
         this.app = express();
         this.port = `${process.env.PORT}` ;
+        this.app.use(todoRouter);
     }
     
     listen() {
