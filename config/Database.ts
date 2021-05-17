@@ -22,7 +22,7 @@ class Database{
 
         this.database = mongoose.connection;  
         this.database.once("open", async () => {
-            console.log("Connected to database");
+            console.log("Connected to database :)");
         });
 
         this.database.on("error", () => {
