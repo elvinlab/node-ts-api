@@ -11,6 +11,14 @@ export class UserRoutes {
             this.user_controller.create_user(req, res);
         });
 
+        app.post('/api/user/login', (req: Request, res: Response) => {
+            this.user_controller.log_in(req, res);
+        });
+
+        app.get('/api/user/:email', (req: Request, res: Response) => {
+            this.user_controller.get_by_email(req, res);
+        });
+
         app.get('/api/user/:id', (req: Request, res: Response) => {
             this.user_controller.get_user(req, res);
         });
