@@ -1,3 +1,14 @@
+import { Schema, model } from 'mongoose';
+
+const UserSchema = new Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true }
+});
+
+export default model('User', UserSchema);
+
+/*
 import moongose from "mongoose";
 
 interface IUsersSchema{
@@ -15,8 +26,8 @@ interface IUsersDoc extends moongose.Document{
 };
 
 const UsersSchema = new moongose.Schema({
-    /*nombre : String,
-    required : true*/
+    //nombre : String,
+    //required : true
     nombre : {type:String,required:true},
     nombre2 : {type:String,required:true}
 });
@@ -31,3 +42,5 @@ UsersSchema.statics.checks = (attr:IUsersSchema)=>{
 //UserModel.checks({nombre:'mau'});
 
 export {UserModel};
+
+*/
