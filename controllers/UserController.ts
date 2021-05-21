@@ -10,27 +10,40 @@ export class UserController {
 
     //////////////////////////////////////////
     private scrypt = promisify(crypto.scrypt);
-    private SALT = 'e7wd2qw9f1g17akiopAT5ffW';
+    private SALT = 'e7wd2qX9f1g97akiopAT5f3K';
     private hashLength = 64;
     //////////////////////////////////////////
+    
+    private async userRegistered(email: String){
+        const user_filter = { email: email };
+        const searchUser = promisify(this.user_service.searchUser);
+        const promise:any = await searchUser(user_filter);
+        return promise;        
+    }
     
     public async create_user(req: Request, res: Response) {
         let { name, email, password } = req.body;
         if (name && email && password) {
-            const derivedKey:any = await this.scrypt(password, this.SALT, this.hashLength);
-            password = derivedKey.toString('hex');
-            const user_params: IUser = {
-                name,
-                email,
-                password
-            };            
-            this.user_service.createUser(user_params, (err: any, user_data: IUser) => {
-                if (err) {
-                    mongoError(err, res);
-                } else {
-                    successResponse('register user successfully', user_data, res);
-                }
-            });
+            const exists = await this.userRegistered(email);
+            if(!exists){
+                const derivedKey:any = await this.scrypt(password, this.SALT, this.hashLength);
+                password = derivedKey.toString('hex');
+                const user_params: IUser = {
+                    name,
+                    email,
+                    password
+                };            
+                this.user_service.createUser(user_params, (err: any, user_data: IUser) => {
+                    if (err) {
+                        mongoError(err, res);
+                    } else {
+                        successResponse('register user successfully', user_data, res);
+                    }
+                });
+            }else{
+                failureResponse('email is already registered', null, res);
+            }
+            
         } else {
             insufficientParameters(res);
         }
@@ -88,7 +101,11 @@ export class UserController {
                 if (err) {
                     mongoError(err, res);
                 } else {
-                    successResponse('get user successfully', user_data, res);
+                    if(user_data){
+                        successResponse('get user successfully', user_data, res);
+                    }else{
+                        failureResponse('user not found',null,res);
+                    }
                 }
             });
         } else {
